@@ -1,10 +1,12 @@
 package com.example.michel.arg;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import java.io.IOException;
@@ -12,13 +14,17 @@ import java.io.IOException;
 /**
  * Created by michel on 11/06/16.
  */
-public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
+    public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
     private Camera mCamera;
+    private MainActivity mainActivity;
+    private Controller controller;
 
-    public CameraView(Context context, Camera camera) {
+    public CameraView(Context context, final Camera camera) {
         super(context);
         mCamera = camera;
+        this.mainActivity = (MainActivity)context;
+        this.controller = mainActivity.getController();
 
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
@@ -26,8 +32,15 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         mHolder.addCallback(this);
         // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        OnClickListener listener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.takePicture();
+                //mCamera.startPreview();
+            }
+        };
+        this.setOnClickListener(listener);
     }
-
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, now tell the camera where to draw the preview.
         try {
