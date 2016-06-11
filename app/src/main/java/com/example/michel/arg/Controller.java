@@ -30,7 +30,7 @@ public class Controller {
     }
 
     public void media (){
-        MediaPlayer mp = MediaPlayer.create(mainActivity, R.raw.drake);
+        MediaPlayer mp = MediaPlayer.create(mainActivity, R.raw.bg);
         mp.start();
     }
 
