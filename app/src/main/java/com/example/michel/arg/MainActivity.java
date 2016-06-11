@@ -1,17 +1,13 @@
 package com.example.michel.arg;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
     private Controller c = new Controller(this);
     private static Camera camera = null;
     //original code
-    /*@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }*/
+    }
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
@@ -39,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
         c.media();
 
+    }*/
+
+    public void buttonOnClick (View v) {
+        Button button = (Button) v;
+        modelViewController();
+        setContentView(camView);
+        c.media();
     }
 
     private void modelViewController() {
