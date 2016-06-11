@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private HomeView homeView;
     private CameraView camView;
     private Controller c = new Controller(this);
+    private static Camera camera = null;
     //original code
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +66,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** A safe way to get an instance of the Camera object. */
-    public static Camera getCameraInstance(){
-        Camera c = null;
-        try {
-            c = Camera.open(); // attempt to get a Camera instance
+    public static Camera getCameraInstance() {
+        if (camera != null) {
+            return camera;
         }
-        catch (Exception e){
+        try {
+            camera = Camera.open(); // attempt to get a Camera instance
+        } catch (Exception e) {
             // Camera is not available (in use or does not exist)
         }
-        return c; // returns null if camera is unavailable
+        return camera; // returns null if camera is unavailable
+
     }
 
     public Model getModel() {

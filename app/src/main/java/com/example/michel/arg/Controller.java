@@ -1,6 +1,7 @@
 package com.example.michel.arg;
 
 import android.content.Context;
+import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.widget.RelativeLayout;
 
@@ -11,6 +12,8 @@ public class Controller {
 
     private MainActivity mainActivity;
     private Model model;
+    private Camera camera;
+    private Camera.ShutterCallback shutterCallback;
     //this can be changed
     private RelativeLayout homeView;
 
@@ -25,6 +28,19 @@ public class Controller {
     public void media (){
         MediaPlayer mp = MediaPlayer.create(mainActivity, R.raw.drake);
         mp.start();
+        takePicture();
+    }
+
+    private void takePicture() {
+        camera = mainActivity.getCameraInstance();
+        camera.takePicture(null,null,null, new Camera.PictureCallback(){
+
+            @Override
+            public void onPictureTaken(byte[] data, Camera camera) {
+                
+                camera.startPreview();
+            }
+        });
     }
 
 }
