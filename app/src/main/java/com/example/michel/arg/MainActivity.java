@@ -3,6 +3,7 @@ package com.example.michel.arg;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Controller controller;
     private HomeView homeView;
     private CameraView camView;
-
+    private Controller c = new Controller(this);
     //original code
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         modelViewController();
         setContentView(camView);
+
+        c.media();
+
     }
 
     private void modelViewController() {

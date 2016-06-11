@@ -1,6 +1,7 @@
 package com.example.michel.arg;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.widget.RelativeLayout;
 
 /**
@@ -20,4 +21,10 @@ public class Controller {
         this.homeView = mainActivity.getHomeView();
         //createBitmaps();
     }
+
+    public void media (){
+        MediaPlayer mp = MediaPlayer.create(mainActivity, R.raw.drake);
+        mp.start();
+    }
+
 }
