@@ -7,41 +7,21 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
-import android.renderscript.Byte3;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -77,6 +57,7 @@ public class Controller {
             changeStage(mainActivity.getSubTitle(), mainActivity.getOverlay());
             voiceMp = MediaPlayer.create(mainActivity, R.raw.stevepart1);
             voiceMp.start();
+            voiceMp.setVolume(0.9f, 0.9f);
             model.setState(2);
         } else if(model.getState() == 2) {
             if(input.contains("angel") || input.contains("hack")) {
@@ -85,6 +66,7 @@ public class Controller {
                 voiceMp.release();
                 voiceMp = MediaPlayer.create(mainActivity, R.raw.stevepart2);
                 voiceMp.start();
+                voiceMp.setVolume(0.9f, 0.9f);
                 model.setState(3);
             }
         } else if(model.getState() == 3) {
@@ -94,6 +76,7 @@ public class Controller {
                 voiceMp.release();
                 voiceMp = MediaPlayer.create(mainActivity, R.raw.stevepart3);
                 voiceMp.start();
+                voiceMp.setVolume(0.9f, 0.9f);
                 model.setState(4);
             }
         } else if(model.getState() == 4) {
@@ -101,6 +84,7 @@ public class Controller {
                 changeStage(mainActivity.getSubTitle(), mainActivity.getOverlay());
                 voiceMp.stop();
                 voiceMp.release();
+                //No audio file
                 model.setState(5);
             }
         } else if(model.getState() == 5) {
@@ -112,6 +96,7 @@ public class Controller {
     public void media (){
         mp = MediaPlayer.create(mainActivity, R.raw.itd);
         mp.start();
+        mp.setVolume(0.3f, 0.3f);
     }
 
     public void takePicture() {
