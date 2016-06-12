@@ -3,6 +3,8 @@ package com.example.michel.arg;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.renderscript.Byte3;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -160,6 +163,37 @@ public class Controller {
             sub.setText(model.subtitles[model.getState() - 1]);
             if(model.getState() != 1) {
                 image.setImageResource(model.stages[model.getState() - 1]);
+                Animation myFadeInAnimation = AnimationUtils.loadAnimation(mainActivity, R.anim.fadein);
+                image.startAnimation(myFadeInAnimation);
+                Animation myFadeOutAnimation = AnimationUtils.loadAnimation(mainActivity, R.anim.fadeout);
+                image.startAnimation(myFadeOutAnimation);
+                image.startAnimation(myFadeInAnimation);
+                //image.setAlpha(0);
+                //final Drawable drawable = image.getResources().getDrawable(model.stages[model.getState() - 1]);
+                //GradientDrawable gd = (GradientDrawable) drawable.;
+                /*for(int i = 255; i> 0; i=i-10) {
+                    drawable.mutate();
+                    drawable.setAlpha(i);
+                    drawable.invalidateSelf();
+                }*/
+
+                /*Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            sleep(1000);
+                            //GradientDrawable gd = (GradientDrawable) drawable;
+                            for(int i = 255; i> 0; i--) {
+                                drawable.mutate();
+                                drawable.setAlpha(i);
+                                drawable.invalidateSelf();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();*/
             }
         }
     }
