@@ -9,8 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.view.ViewGroup.LayoutParams;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private CameraView camView;
     private static Camera camera = null;
     LayoutInflater controlInflater = null;
+    public boolean isTakingPicture = false;
 
     //original code
     @Override
@@ -46,20 +47,14 @@ public class MainActivity extends AppCompatActivity {
         controller.media();
         setContentView(camView);
 
-        //Adds subtitle view onto camera view
-        controlInflater = LayoutInflater.from(getBaseContext());
-        View viewControl = controlInflater.inflate(R.layout.subtitles, null);
-        LayoutParams layoutParamsControl
-                = new LayoutParams(LayoutParams.FILL_PARENT,
-                LayoutParams.FILL_PARENT);
-        this.addContentView(viewControl, layoutParamsControl);
+        controller.initStage(controlInflater, getBaseContext()); //Adds subtitle view onto camera view
 
         final TextView sub = (TextView) findViewById(R.id.subtitle);
         sub.setText(model.subtitles[0]);
         sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.changeSubtitle(sub);
+                controller.changeStage(sub, ((ImageView) findViewById(R.id.tVision)));
             }
         });
     }
@@ -127,6 +122,4 @@ public class MainActivity extends AppCompatActivity {
     public void setHomeView(HomeView homeView) {
         this.homeView = homeView;
     }
-
-
 }

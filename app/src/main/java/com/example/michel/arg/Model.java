@@ -22,4 +22,12 @@ public class Model {
         "Subtitle4",
         "Subtitle5"
     };
+
+    public final int [] stages = new int [] {
+        R.drawable.stage_01,
+        R.drawable.stage_02,
+        R.drawable.stage_03,
+        R.drawable.stage_04,
+        R.drawable.stage_05
+    };
 }
