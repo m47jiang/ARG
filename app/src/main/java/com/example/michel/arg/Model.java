@@ -16,9 +16,9 @@ public class Model {
     }
 
     public final String[] subtitles = new String [] {
-        "Subtitle1",
-        "Subtitle2",
-        "Subtitle3",
+        "Find the name of this hackathon.",
+        "Call (905)-581-7294",
+        "Get Outside",
         "Subtitle4",
         "Subtitle5"
     };
