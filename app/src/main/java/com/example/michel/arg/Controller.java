@@ -16,6 +16,11 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import okhttp3.MediaType;
@@ -54,6 +59,7 @@ public class Controller {
     //this can be changed
     private RelativeLayout homeView;
     private MediaPlayer mp;
+    private MediaPlayer voiceMp;
 
     public Controller(Context context) {
         this.mainActivity = (MainActivity) context;
@@ -62,8 +68,46 @@ public class Controller {
         //createBitmaps();
     }
 
+    public void doNextState(String input) {
+        Log.d("DO NEXT STATE", "Performing the state: " + model.getState());
+        if(model.getState() == 1) {
+            changeStage(mainActivity.getSubTitle(), mainActivity.getOverlay());
+            voiceMp = MediaPlayer.create(mainActivity, R.raw.stevepart1);
+            voiceMp.start();
+            model.setState(2);
+        } else if(model.getState() == 2) {
+            if(input.contains("angel") || input.contains("hack")) {
+                changeStage(mainActivity.getSubTitle(), mainActivity.getOverlay());
+                voiceMp.stop();
+                voiceMp.release();
+                voiceMp = MediaPlayer.create(mainActivity, R.raw.stevepart2);
+                voiceMp.start();
+                model.setState(3);
+            }
+        } else if(model.getState() == 3) {
+            if(input.toLowerCase().contains("mar") || input.toLowerCase().contains("ars")) {
+                changeStage(mainActivity.getSubTitle(), mainActivity.getOverlay());
+                voiceMp.stop();
+                voiceMp.release();
+                voiceMp = MediaPlayer.create(mainActivity, R.raw.stevepart3);
+                voiceMp.start();
+                model.setState(4);
+            }
+        } else if(model.getState() == 4) {
+            if(input.toLowerCase().contains("awareness")) {
+                changeStage(mainActivity.getSubTitle(), mainActivity.getOverlay());
+                voiceMp.stop();
+                voiceMp.release();
+                model.setState(5);
+            }
+        } else if(model.getState() == 5) {
+            changeStage(mainActivity.getSubTitle(), mainActivity.getOverlay());
+            model.setState(1);
+        }
+    }
+
     public void media (){
-        mp = MediaPlayer.create(mainActivity, R.raw.bg);
+        mp = MediaPlayer.create(mainActivity, R.raw.itd);
         mp.start();
     }
 
@@ -107,19 +151,16 @@ public class Controller {
     }
 
     public void changeStage (TextView sub, ImageView image){
-        int i = 0;
-        for (; i < model.subtitles.length; i++) {
-            if (sub.getText().equals(model.subtitles[i]))
-                break;
-        }
-
-        if (i != model.subtitles.length-1){
-            sub.setText(model.subtitles[i+1]);
-            image.setImageResource(model.stages[i+1]);
-        }
-        else {
+        Log.d("CURRENT STATE", "current state is " + model.getState());
+        if (model.getState() == 5){
             mainActivity.setContentView(R.layout.activity_main);
             mp.stop();
+        }
+        else {
+            sub.setText(model.subtitles[model.getState() - 1]);
+            if(model.getState() != 1) {
+                image.setImageResource(model.stages[model.getState() - 1]);
+            }
         }
     }
 
@@ -128,7 +169,7 @@ public class Controller {
         Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
         Bitmap scale = Bitmap.createScaledBitmap(bmp, bmp.getWidth() / 5, bmp.getHeight() / 5, true);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        scale.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
+        scale.compress(Bitmap.CompressFormat.JPEG, 60, outputStream);
         final byte[] newdata = outputStream.toByteArray();
 
         Thread thread = new Thread() {
@@ -153,6 +194,26 @@ public class Controller {
                     Log.d("POST RUN", "post call finished");
                     String responseBody = response.body().string();
                     String mob = response.message();
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        JSONArray jsonArray = jsonObject.getJSONArray("text_block");
+                        JSONObject text = jsonArray.getJSONObject(0);
+
+                        final String recognizedText = text.getString("text");
+
+                        mainActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                doNextState(recognizedText);
+                            }
+                        });
+                        Log.d("recognized text", "recognized text is: " + recognizedText);
+                    } catch (Exception e) {
+                        Log.e("JSON EXCEPTION", "CRITICAL ERROR PARSING JSON " + e.getMessage());
+                    }
+
+
                     Log.d("POST RUN", "response body " + responseBody);
                     Log.d("POST RUN", "mob " + mob);
                     /*OkHttpClient client = new OkHttpClient();

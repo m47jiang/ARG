@@ -8,11 +8,21 @@ import android.content.Context;
 public class Model {
     private Context context;
     public static final String subtitle = "Sub";
+    public int state;
 
     public Model(Context context) {
         this.context = context;
+        state = 1;
         //initializeFields();
         //setScreenSize();
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public final String[] subtitles = new String [] {

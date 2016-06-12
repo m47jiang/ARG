@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private static Camera camera = null;
     LayoutInflater controlInflater = null;
     public boolean isTakingPicture = false;
+    private TextView sub = null;
+    private ImageView overlay = null;
 
     //original code
     @Override
@@ -43,20 +45,35 @@ public class MainActivity extends AppCompatActivity {
 
     }*/
 
+    public TextView getSubTitle() {
+        if(sub == null) {
+            sub = (TextView) findViewById(R.id.subtitle);
+        }
+        return sub;
+    }
+
+    public ImageView getOverlay() {
+        if(overlay == null) {
+            overlay = (ImageView) findViewById(R.id.tVision);
+        }
+        return overlay;
+    }
+
     public void buttonOnClick (View v) {
         controller.media();
         setContentView(camView);
 
         controller.initStage(controlInflater, getBaseContext()); //Adds subtitle view onto camera view
 
-        final TextView sub = (TextView) findViewById(R.id.subtitle);
-        sub.setText(model.subtitles[0]);
-        sub.setOnClickListener(new View.OnClickListener() {
+        Log.d("CALLING DONEXTSTATE", "Calling do next state");
+        //sub.setText(model.subtitles[0]);
+        controller.doNextState("");
+        /*sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 controller.changeStage(sub, ((ImageView) findViewById(R.id.tVision)));
             }
-        });
+        });*/
     }
 
     private void modelViewController() {
