@@ -21,6 +21,7 @@ public class Controller {
     private Bitmap image;
     //this can be changed
     private RelativeLayout homeView;
+    private MediaPlayer mp;
 
 
     public Controller(Context context) {
@@ -31,7 +32,7 @@ public class Controller {
     }
 
     public void media (){
-        MediaPlayer mp = MediaPlayer.create(mainActivity, R.raw.bg);
+        mp = MediaPlayer.create(mainActivity, R.raw.bg);
         mp.start();
     }
 
@@ -64,7 +65,9 @@ public class Controller {
 
         if (i != model.subtitles.length-1)
             sub.setText(model.subtitles[i+1]);
-        else
+        else {
             sub.setText("Game Over");
+            mp.stop();
+        }
     }
 }
