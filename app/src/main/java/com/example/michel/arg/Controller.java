@@ -150,9 +150,8 @@ public class Controller {
                 image.setImageResource(model.stages[model.getState() - 1]);
                 Animation myFadeInAnimation = AnimationUtils.loadAnimation(mainActivity, R.anim.fadein);
                 image.startAnimation(myFadeInAnimation);
-                Animation myFadeOutAnimation = AnimationUtils.loadAnimation(mainActivity, R.anim.fadeout);
-                image.startAnimation(myFadeOutAnimation);
-                image.startAnimation(myFadeInAnimation);
+
+                //image.startAnimation(myFadeInAnimation);
                 //image.setAlpha(0);
                 //final Drawable drawable = image.getResources().getDrawable(model.stages[model.getState() - 1]);
                 //GradientDrawable gd = (GradientDrawable) drawable.;
