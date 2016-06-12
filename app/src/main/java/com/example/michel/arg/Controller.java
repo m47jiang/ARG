@@ -58,6 +58,7 @@ public class Controller {
 
         Log.e("cameraexception", "took a picture");
 
+        mainActivity.isTakingPicture = true;
         //camera.startPreview();
         camera.takePicture(null, null, null, new Camera.PictureCallback() {
 
@@ -71,6 +72,7 @@ public class Controller {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                mainActivity.isTakingPicture = false;
                 camera.startPreview();
             }
         });
@@ -83,7 +85,7 @@ public class Controller {
                 break;
         }
 
-        if (i != model.subtitles.length - 1)
+        if (i <= model.subtitles.length - 1)
             sub.setText(model.subtitles[i + 1]);
         else {
             sub.setText("Game Over");
@@ -106,6 +108,7 @@ public class Controller {
                     sleep(1000);
                     OkHttpClient client = new OkHttpClient();
 
+                    Log.d("POST RUN", "post call");
                     MediaType mediaType = MediaType.parse("image/jpeg");
                     RequestBody filebody = RequestBody.create(mediaType, newdata);
                     MultipartBody body = new MultipartBody.Builder().addFormDataPart("file", "whatever.jpg", filebody).build();
@@ -115,9 +118,13 @@ public class Controller {
                             .addHeader("cache-control", "no-cache")
                             .build();
 
+                    Log.d("POST RUN", "executing post call");
                     Response response = client.newCall(request).execute();
+                    Log.d("POST RUN", "post call finished");
                     String responseBody = response.body().string();
                     String mob = response.message();
+                    Log.d("POST RUN", "response body " + responseBody);
+                    Log.d("POST RUN", "mob " + mob);
                     /*OkHttpClient client = new OkHttpClient();
                     String url = "https://api.havenondemand.com/1/api/sync/ocrdoocument/v1";
 

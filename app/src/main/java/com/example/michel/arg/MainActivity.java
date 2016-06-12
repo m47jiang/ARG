@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private CameraView camView;
     private static Camera camera = null;
     LayoutInflater controlInflater = null;
+    public boolean isTakingPicture = false;
 
     //original code
     @Override
