@@ -7,8 +7,20 @@ import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.renderscript.Byte3;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -39,7 +51,6 @@ public class Controller {
     //this can be changed
     private RelativeLayout homeView;
     private MediaPlayer mp;
-
 
     public Controller(Context context) {
         this.mainActivity = (MainActivity) context;
@@ -78,17 +89,33 @@ public class Controller {
         });
         Log.e("cameraexception", "took a picture");
     }
-    public void changeSubtitle (TextView sub) {
+
+    public void initStage (LayoutInflater controlInflater, android.content.Context resource){
+        controlInflater = LayoutInflater.from(resource);
+
+        View viewControl = controlInflater.inflate(R.layout.subtitles, null);
+        View viewControl2 = controlInflater.inflate(R.layout.tunnelvision, null);
+        ViewGroup.LayoutParams layoutParamsControl
+                = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+                ViewGroup.LayoutParams.FILL_PARENT);
+
+        mainActivity.addContentView(viewControl, layoutParamsControl);
+        mainActivity.addContentView(viewControl2, layoutParamsControl);
+    }
+
+    public void changeStage (TextView sub, ImageView image){
         int i = 0;
         for (; i < model.subtitles.length; i++) {
             if (sub.getText().equals(model.subtitles[i]))
                 break;
         }
 
-        if (i <= model.subtitles.length - 1)
-            sub.setText(model.subtitles[i + 1]);
+        if (i != model.subtitles.length-1){
+            sub.setText(model.subtitles[i+1]);
+            image.setImageResource(model.stages[i+1]);
+        }
         else {
-            sub.setText("Game Over");
+            mainActivity.setContentView(R.layout.activity_main);
             mp.stop();
         }
     }
@@ -153,57 +180,3 @@ public class Controller {
         thread.start();
     }
 }
-
-/*
-        final HttpURLConnection[] client = {null};
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(1000);
-                    try {
-                        URL url = new URL("https://api.havenondemand.com/1/api/sync/ocrdocument/v1");
-                        client[0] = (HttpURLConnection) url.openConnection();
-                        client[0].setRequestMethod("POST");
-                        client[0].setRequestProperty("URL", "http://i0.wp.com/dailynous.com/wp-content/uploads/2015/02/motivational-sidgwick.png");
-                        client[0].setRequestProperty("apikey", "b14a0613-91b1-4485-9b9b-41225643cb94");
-                        client[0].setDoOutput(true);
-
-                        OutputStream outputPost = new BufferedOutputStream(client[0].getOutputStream());
-                        check(outputPost);
-                        outputPost.flush();
-                        outputPost.close();
-
-
-                    } catch (MalformedURLException error) {
-                        Log.e("MALFORMEDURLEXCEPTION", "problem with" + error);
-                        //Handles an incorrectly entered URL
-                    } catch (SocketTimeoutException error) {
-                        Log.e("SOCKETIMEOUTEXCEPTION", "problem with" + error);
-//Handles URL access timeout.
-                    } catch (IOException error) {
-                        Log.e("IOEXCEPTION", "problem with" + error);
-//Handles input and output errors
-                    } finally {
-                        if (client[0] != null) // Make sure the connection is not null.
-                            client[0].disconnect();
-                    }
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-
-        thread.start();
-
-
-    }
-
-    private void check(OutputStream outputPost) {
-        BufferedOutputStream baos = (BufferedOutputStream) outputPost;
-        String result = outputPost.toString();
-    }
-
-}*/
