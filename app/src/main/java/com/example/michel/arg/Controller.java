@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 /**
  * Created by michel on 11/06/16.
@@ -54,4 +55,16 @@ public class Controller {
         Log.e("cameraexception", "took a picture");
     }
 
+    public void changeSubtitle (TextView sub){
+        int i = 0;
+        for(; i < model.subtitles.length; i++){
+            if (sub.getText().equals(model.subtitles[i]))
+                break;
+        }
+
+        if (i != model.subtitles.length-1)
+            sub.setText(model.subtitles[i+1]);
+        else
+            sub.setText("Game Over");
+    }
 }

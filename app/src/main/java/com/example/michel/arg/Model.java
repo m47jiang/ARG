@@ -7,10 +7,19 @@ import android.content.Context;
  */
 public class Model {
     private Context context;
+    public static final String subtitle = "Sub";
 
     public Model(Context context) {
         this.context = context;
         //initializeFields();
         //setScreenSize();
     }
+
+    public final String[] subtitles = new String [] {
+        "Subtitle1",
+        "Subtitle2",
+        "Subtitle3",
+        "Subtitle4",
+        "Subtitle5"
+    };
 }
